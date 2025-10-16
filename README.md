@@ -72,9 +72,12 @@ ___
 #
 ### The bullet takes in a base velocity on initialization which is then multiplied by the BULLETSPEED to create the finalized velocity vector for the bullet
 #
+### Bullets cannot be shot directly up, this is a result of the fact that the x-z tilt will always affect the movement of the bullet in a similar way
+### The x-z direction of the camera is a constant force that is not affected by the vertical tilt of the camera
+#
 ![Diagram of the Bullet Class](resources/BulletDiagram.png)
 ___
 ## Enemy
-#
+### The Enemy class represents a single enemy within the system
 [Diagram of the Enemy Class](resources/EnemyDiagram.png)
 

@@ -74,4 +74,9 @@ public class Bullet extends Box {
 
         timeToLive--;
     }
+
+    /**
+     * Kills the bullet early, used when it collides with an enemy
+     */
+    public void killBullet() { this.timeToLive = 0; }
 }

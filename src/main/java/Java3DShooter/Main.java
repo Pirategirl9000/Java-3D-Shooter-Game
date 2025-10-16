@@ -1,5 +1,6 @@
 package Java3DShooter;
 
+import Java3DShooter.Player.Bullet;
 import Java3DShooter.Player.Player;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -111,6 +112,12 @@ public class Main extends Application {
 
             // Enemy logic
             for (Enemy currentEnemy : enemies) {
+                for (Box bullet : player.getBullets()) {
+                    if (isColliding(bullet, currentEnemy)) {
+                        currentEnemy.takeDamage(1);
+                        bullet.
+                    }
+                }
                 if (currentEnemy.isDead()) {
                     deadEnemies.add(currentEnemy);  // Do it this way so we don't skip over enemies during our iteration
                     continue;
