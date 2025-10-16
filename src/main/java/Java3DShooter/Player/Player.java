@@ -174,11 +174,11 @@ public class Player extends Group {
     public Box getHitbox() { return this.hitbox; }
 
     /**
-     * Gets all the bullets as an array of boxes
-     * @return box[] bullets
+     * Gets all the bullets as an array of Bullets
+     * @return Bullet[] bullets
      */
-    public Box[] getBullets() {
-        return projectiles.toArray(new Box[0]);
+    public Bullet[] getBullets() {
+        return projectiles.toArray(new Bullet[0]);
     }
 
     /**

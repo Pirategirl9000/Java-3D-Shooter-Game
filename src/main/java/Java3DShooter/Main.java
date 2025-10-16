@@ -112,10 +112,10 @@ public class Main extends Application {
 
             // Enemy logic
             for (Enemy currentEnemy : enemies) {
-                for (Box bullet : player.getBullets()) {
+                for (Bullet bullet : player.getBullets()) {
                     if (isColliding(bullet, currentEnemy)) {
                         currentEnemy.takeDamage(1);
-                        bullet.
+                        bullet.killBullet();
                     }
                 }
                 if (currentEnemy.isDead()) {
