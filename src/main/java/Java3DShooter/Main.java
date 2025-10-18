@@ -79,19 +79,9 @@ public class Main extends Application {
     private final Player player = new Player();
 
     /**
-     * Width of the sun
+     * Width, Height, Depth of the sun
      */
-    private static final double SUNWIDTH = 40;
-
-    /**
-     * Height of the sun
-     */
-    private static final double SUNHEIGHT = 40;
-
-    /**
-     * Depth of the sun (z-length)
-     */
-    private static final double SUNDEPTH = 40;
+    private static final double[] SUNDIMENSIONS = {40, 40, 40};
 
     /**
      * Coordinates of the sun
@@ -340,7 +330,7 @@ public class Main extends Application {
         // Create any objects
         Box[] transflag = makeTransFlag(100, 20, 100, 0, -50, 0);
         Box ground = createBox(GROUNDWIDTH, GROUNDHEIGHT, GROUNDDEPTH, 0, GROUNDHEIGHT * 0.5, 0, Color.GREEN);
-        Box sun = createBox(SUNWIDTH, SUNHEIGHT, SUNDEPTH, SUNCOORDS[0], SUNCOORDS[1], SUNCOORDS[2], Color.YELLOW);
+        Box sun = createBox(SUNDIMENSIONS[0], SUNDIMENSIONS[1], SUNDIMENSIONS[2], SUNCOORDS[0], SUNCOORDS[1], SUNCOORDS[2], Color.YELLOW);
 
         // Pass the boundingBox for the ground plane to the Enemy class so it knows how to spawn the enemies
         Enemy.setGroundPlaneBoundingBox(calculateBoundingBox(ground));
