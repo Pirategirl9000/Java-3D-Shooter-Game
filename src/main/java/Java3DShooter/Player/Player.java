@@ -81,6 +81,16 @@ public class Player extends Group {
     private static final double SPEED = 1.5;
 
     /**
+     * How high the player can jump
+     */
+    private static final double JUMPHEIGHT = 3;
+
+    /**
+     * Whether the player can currently jump
+     */
+    private boolean canJump = true;
+
+    /**
      * Look speed for the camera, impacts how fast the camera will tilt
      */
     private static final double LOOKSPEED = 1;
@@ -113,7 +123,7 @@ public class Player extends Group {
     /**
      * The force of gravity upon the player. Serves as an acceleration
      */
-    private final double GRAVITY = 1;
+    private final double GRAVITY = 0.2;
 
     /**
      * The yaw(rotation around the y-axis) transformer of the camera
@@ -350,8 +360,8 @@ public class Player extends Group {
         // Reduce the remaining iFrames
         if (invulnerabilityFrames > 0) {invulnerabilityFrames--;}
 
-        // Clear our old velocities so we can reassign them based on the inputs held
-        velocity = new double[] {0, 0, 0};
+        // Clear our old velocities except for y velocity so we can reset them using the key holds
+        velocity = new double[] {0, velocity[1], 0};
         turnVelocity = new double[] {0, 0, 0};
 
 
@@ -394,7 +404,10 @@ public class Player extends Group {
                     velocity[2] = xMotionVector[0] * SPEED;
                     break;
                 case "Space":
-                    velocity[1] = -SPEED;
+                    if (canJump) {
+                        velocity[1] = -JUMPHEIGHT;
+                        canJump = false;
+                    }
                     break;
                 case "Shift":
                     velocity[1] = SPEED;
@@ -405,8 +418,17 @@ public class Player extends Group {
             }
         }
 
+        // Gravity is acceleration so we add gravity every frame to our velocity
+        velocity[1] += GRAVITY;
+
         // If they are below the floor we bring them back up
-        double newYPosition = Math.min(camera.getTranslateY() + velocity[1], groundPlaneBoundingBox[1][0] - PLAYERHEIGHT);
+        double newYPosition = Math.min(camera.getTranslateY() + GRAVITY + velocity[1], groundPlaneBoundingBox[1][0] - PLAYERHEIGHT);
+
+        // If they got their position reset we also reset their gravity and jump flag so they can jump next frame
+        if (newYPosition == groundPlaneBoundingBox[1][0] - PLAYERHEIGHT) {
+            velocity[1] = 0;  // reset the velocity to prevent an overflow
+            canJump = true;
+        }
 
         // Set the new position
         double[] newPosition = {camera.getTranslateX() + velocity[0], newYPosition, camera.getTranslateZ() + velocity[2]};
