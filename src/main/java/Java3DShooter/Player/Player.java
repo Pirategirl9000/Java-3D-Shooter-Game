@@ -53,6 +53,8 @@ public class Player extends Group {
      */
     private double HP = MAXHP;
 
+    private final double[][] groundPlaneBoundingBox;
+
     /**
      * Number of frames between shots. Note that AnimationTimer pulses at 60Hz so we need to multiply the cooldown by 60
      */
@@ -109,6 +111,11 @@ public class Player extends Group {
     private double[] velocity = {0, 0, 0};  // x, y, z move velocity
 
     /**
+     * The force of gravity upon the player. Serves as an acceleration
+     */
+    private final double GRAVITY = 1;
+
+    /**
      * The yaw(rotation around the y-axis) transformer of the camera
      * <p></p>
      * Used for left and right looking
@@ -130,9 +137,10 @@ public class Player extends Group {
      * @param farClip farClip of the camera (render distance)
      * @param nearClip nearClip of the camera (near-render distance)
      */
-    public Player(int x, int y , int z, int farClip, int nearClip) {
+    public Player(int x, int y , int z, int farClip, int nearClip, double[][] groundPlaneBoundingBox) {
         initializeCamera(x, y, z, farClip, nearClip, new Transform[] {yaw, pitch});
         initializeHitbox(x, y, z);
+        this.groundPlaneBoundingBox = groundPlaneBoundingBox;
         this.getChildren().add(projectilesGroup); // Stores and updates the currently living bullets
     }
 
@@ -142,15 +150,15 @@ public class Player extends Group {
      * @param y y position
      * @param z z postition
      */
-    public Player(int x, int y, int z) {
-        this(x, y, z, 1000, 10);
+    public Player(int x, int y, int z, double[][] groundPlaneBoundingBox) {
+        this(x, y, z, 1000, 10, groundPlaneBoundingBox);
     }
 
     /**
      * Initializes a player with default parameters
      */
-    public Player() {
-        this(0, -10, -200, 5000, 10);
+    public Player(double[][] groundPlaneBoundingBox) {
+        this(0, -10, -200, 5000, 10, groundPlaneBoundingBox);
     }
 
     /**

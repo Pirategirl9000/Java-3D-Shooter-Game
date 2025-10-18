@@ -76,7 +76,7 @@ public class Main extends Application {
     /**
      * Player object which controls the camera and will handle any player based events
      */
-    private final Player player = new Player();
+    private Player player;
 
     /**
      * Width, Height, Depth of the sun
@@ -324,13 +324,16 @@ public class Main extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
-        // Set up the scene
-        initializeScene();
-
         // Create any objects
         Box[] transflag = makeTransFlag(100, 20, 100, 0, -50, 0);
         Box ground = createBox(GROUNDWIDTH, GROUNDHEIGHT, GROUNDDEPTH, 0, GROUNDHEIGHT * 0.5, 0, Color.GREEN);
         Box sun = createBox(SUNDIMENSIONS[0], SUNDIMENSIONS[1], SUNDIMENSIONS[2], SUNCOORDS[0], SUNCOORDS[1], SUNCOORDS[2], Color.YELLOW);
+
+        // Initialize the player
+        player = new Player(calculateBoundingBox(ground));
+
+        // Initialize the scene
+        initializeScene();
 
         // Pass the boundingBox for the ground plane to the Enemy class so it knows how to spawn the enemies
         Enemy.setGroundPlaneBoundingBox(calculateBoundingBox(ground));
