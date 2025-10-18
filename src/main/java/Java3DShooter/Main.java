@@ -117,50 +117,18 @@ public class Main extends Application {
      * AnimationTimer that controls the game loop
      */
     private final AnimationTimer gameLoop = new AnimationTimer() {
-        private ArrayList<Enemy> deadEnemies = new ArrayList<>();
-
         public void handle(long now) {
             // Player logic
+            if (player.isDead()) {
+                this.stop(); // stops the gameLoop if the player is dead
+                return;
+            }
             player.move(keysHeld);  // Note: this also moves all bullets by one frame
 
-
-
-
-            // Enemy logic
-            for (Enemy currentEnemy : enemies) {
-                for (Bullet bullet : player.getBullets()) {
-                    if (isColliding(bullet, currentEnemy)) {
-                        currentEnemy.takeDamage(1);
-                        bullet.killBullet();
-                    }
-                }
-                if (currentEnemy.isDead()) {
-                    deadEnemies.add(currentEnemy);  // Do it this way so we don't skip over enemies during our iteration
-                    continue;
-                }
-
-                currentEnemy.move(player.getX(), player.getZ());
-                if (isColliding(currentEnemy, player.getHitbox())) {
-                    player.takeDamage(currentEnemy.getDamage());
-
-                    if (player.isDead()) {
-                        this.stop(); // stops the gameLoop if the player is dead
-                        return;
-                    }
-                }
-            }
-
-            // Update the kill counter
-            enemiesKilled += deadEnemies.size();
-
-            // Get rid of all dead enemies
-            enemies.removeAll(deadEnemies);
-            deadEnemies.clear();
-
+            moveEnemies();
 
             // Spawns an enemy(s) if it's cooldown is done and then adds it to the children of the enemyGroup
             if (nextEnemy <= 0) {spawnEnemies();}
-
 
             enemyGroup.getChildren().setAll(enemies);  // Refresh the enemy group in case there was a dead enemy or new enemy spawned
             nextEnemy--; // Reduce the cooldown by 1 frame
@@ -184,6 +152,47 @@ public class Main extends Application {
         node.setTranslateX(x);
         node.setTranslateY(y);
         node.setTranslateZ(z);
+    }
+
+    /**
+     * Removes all deadenemies from the environment and updates the kill counter
+     * @param deadEnemies an arraylist of Enemy's to remove
+     */
+    private void cullDeadEnemies(ArrayList<Enemy> deadEnemies) {
+        // Update the kill counter
+        enemiesKilled += deadEnemies.size();
+
+        // Get rid of all dead enemies
+        enemies.removeAll(deadEnemies);
+        deadEnemies.clear();
+    }
+
+    /**
+     * Moves all enemies while checking their collision with the player and any bullets. Culls any enemies who are dead afterward
+     */
+    private void moveEnemies() {
+        ArrayList<Enemy> deadEnemies = new ArrayList<>();
+
+        // Enemy logic
+        for (Enemy currentEnemy : enemies) {
+            for (Bullet bullet : player.getBullets()) {
+                if (isColliding(bullet, currentEnemy)) {
+                    currentEnemy.takeDamage(1);
+                    bullet.killBullet();
+                }
+            }
+            if (currentEnemy.isDead()) {
+                deadEnemies.add(currentEnemy);  // Do it this way so we don't skip over enemies during our iteration
+                continue;
+            }
+
+            currentEnemy.move(player.getX(), player.getZ());
+            if (isColliding(currentEnemy, player.getHitbox())) {
+                player.takeDamage(currentEnemy.getDamage());
+            }
+        }
+
+        cullDeadEnemies(deadEnemies); // Removes all dead enemies
     }
 
     /**
