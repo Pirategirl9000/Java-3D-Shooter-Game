@@ -151,6 +151,10 @@ public class Enemy extends Box {
      */
     public double getDamage() {return DAMAGE;}
 
+    /**
+     * Returns whether this enemy's health is less than or equal to 0
+     * @return whether the enemy is considered dead
+     */
     public boolean isDead() { return this.HP <= 0;}
 
     /**
@@ -162,7 +166,11 @@ public class Enemy extends Box {
         this.HP -= damage;
     }
 
-
+    /**
+     * Moves the enemy one frame in the directon of the player
+     * @param playerX Player's x position
+     * @param playerZ Player's z position
+     */
     public void move(double playerX, double playerZ) {
         double dx = this.getTranslateX() - playerX;
         double dz = this.getTranslateZ() - playerZ;

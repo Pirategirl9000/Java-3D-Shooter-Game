@@ -237,6 +237,12 @@ public class Player extends Group {
         camera.setFieldOfView(FOV);
     }
 
+    /**
+     * Initializes the player's hitbox
+     * @param x x position of the hitbox
+     * @param y y position of the hitbox
+     * @param z z position of the hitbox
+     */
     private void initializeHitbox(int x, int y, int z) {
         PhongMaterial material = new PhongMaterial();
         material.setDiffuseColor(Color.RED);
