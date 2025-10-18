@@ -62,7 +62,7 @@ ___
 ### Bullet extends Box so it can easily be added to a Group and displayed on scene which is all done by the player class
 ### Player has an ArrayList of Bullets that are added to a group then pushed to the scene that way Main doesn't need to focus on handling projectile logic
 #
-### When a bullet is created it receives a position and velocity vector so it knows where it starts and what direction it goes in
+### When a bullet is created it receives a position and velocity vector based on the spherical coordinate system so it knows where it starts and what direction it goes in
 ### This is all calculated in the Player class so that the bullet can remain very nodal by nature
 ### Due to Bullet being nodal it only has two methods associated with it, getTimeToLive() and move()
 #
