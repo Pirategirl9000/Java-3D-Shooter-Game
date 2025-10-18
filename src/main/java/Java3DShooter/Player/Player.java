@@ -24,6 +24,16 @@ public class Player extends Group {
     private static final int PLAYERHEIGHT = 20;
 
     /**
+     * The amount of frames that must pass before the player takes damage again
+     */
+    private static final int invulnerabilityFramesTotal = 60;
+
+    /**
+     * The amount of frames remaining until the player can take damage again
+     */
+    private static int invulnerabilityFrames = 0;
+
+    /**
      * Width of the player's hitbox in pixels
      */
     private static final int PLAYERWIDTH = 10;
@@ -251,8 +261,8 @@ public class Player extends Group {
         // The trigonometric representation of a 3D vector is defined below
         // <r * sin(yaw) * cos(pitch), r * sin(pitch), r * cos(yaw) * cos(pitch)>
         // For more information and to see the original formulas view https://math.libretexts.org/Bookshelves/Calculus/Calculus_%28OpenStax%29/12%3A_Vectors_in_Space/12.07%3A_Cylindrical_and_Spherical_Coordinates
-        // My basic understanding of it is that these are the formulas for converting spherical coordinates (like Cartesian but in the 3rd dimension) back to rectangular coordinates
-        // We worked with Cartesian to rectangular back in the enemy spawn mechanics for reference
+        // My basic understanding of it is that these are the formulas for converting spherical coordinates (like Polar but in the 3rd dimension) back to rectangular(Cartesian) coordinates
+        // We worked with Polar to rectangular(Cartesian) back in the enemy spawn mechanics for reference
         double xVel = Math.sin(yawRad) * Math.cos(pitchRad);
         double yVel = -Math.sin(pitchRad); // Negative because upward tilt is negative angle
         double zVel = Math.cos(yawRad) * Math.cos(pitchRad);
@@ -295,11 +305,13 @@ public class Player extends Group {
     }
 
     /**
-     * Reduces the player's health by the damage taken unless the player is already dead
+     * Reduces the player's health by the damage taken unless the player is already dead or have invulnerability frames remaining
      * @param damage damage taken
      */
     public void takeDamage(int damage) {
         if (isDead()) {return;}  // Player is already dead
+        if (invulnerabilityFrames > 0) {return;}
+        invulnerabilityFrames = invulnerabilityFramesTotal;
         this.HP -= damage;
     }
 
@@ -320,6 +332,9 @@ public class Player extends Group {
         // Reduce the cooldown before the next shot
         // We do this through a conditional to prevent a negative overflow if they don't shoot for too long
         if (nextShot > 0) {nextShot--;}
+
+        // Reduce the remaining iFrames
+        if (invulnerabilityFrames > 0) {invulnerabilityFrames--;}
 
         // Clear our old velocities so we can reassign them based on the inputs held
         velocity = new double[] {0, 0, 0};
