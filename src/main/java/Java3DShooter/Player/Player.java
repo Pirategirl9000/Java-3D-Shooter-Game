@@ -405,8 +405,11 @@ public class Player extends Group {
             }
         }
 
+        // If they are below the floor we bring them back up
+        double newYPosition = Math.min(camera.getTranslateY() + velocity[1], groundPlaneBoundingBox[1][0] - PLAYERHEIGHT);
+
         // Set the new position
-        double[] newPosition = {camera.getTranslateX() + velocity[0], camera.getTranslateY() + velocity[1], camera.getTranslateZ() + velocity[2]};
+        double[] newPosition = {camera.getTranslateX() + velocity[0], newYPosition, camera.getTranslateZ() + velocity[2]};
         setTranslate(camera, newPosition[0], newPosition[1], newPosition[2]);
         setTranslate(hitbox, newPosition[0], newPosition[1], newPosition[2]);
 
