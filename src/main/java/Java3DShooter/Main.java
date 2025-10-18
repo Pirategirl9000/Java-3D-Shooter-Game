@@ -17,6 +17,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Serves as the driver code for the application. Handles the stage element and basic game loop. Responsible for adding the different elements to the stage
+ * Also calls all relevant entity's functions each frame
+ */
 public class Main extends Application {
 
     /**
@@ -28,6 +32,11 @@ public class Main extends Application {
      * A group for rending the different enemies
      */
     private final Group enemyGroup = new Group();
+
+    /**
+     * Amount of enemies to spawn per spawn tick
+     */
+    private int spawnAmount = 1;
 
     /**
      * Stores all the enemies
@@ -44,6 +53,9 @@ public class Main extends Application {
      */
     private int nextEnemy = SPAWNCOOLDOWN;
 
+    /**
+     * The total number of enemies killed
+     */
     private int enemiesKilled = 0;
 
     /**
@@ -146,11 +158,8 @@ public class Main extends Application {
             deadEnemies.clear();
 
 
-            // Spawns an enemy if it's cooldown is up and then adds it to the children of the enemyGroup
-            if (nextEnemy <= 0) {
-                enemies.add(new Enemy(player.getHitbox()));
-                nextEnemy = SPAWNCOOLDOWN;  // Reset the cooldown
-            }
+            // Spawns an enemy(s) if it's cooldown is done and then adds it to the children of the enemyGroup
+            if (nextEnemy <= 0) {spawnEnemies();}
 
 
             enemyGroup.getChildren().setAll(enemies);  // Refresh the enemy group in case there was a dead enemy or new enemy spawned
@@ -175,6 +184,17 @@ public class Main extends Application {
         node.setTranslateX(x);
         node.setTranslateY(y);
         node.setTranslateZ(z);
+    }
+
+    /**
+     * Spawns a new enemy a preset distance from the player
+     */
+    private void spawnEnemies() {
+        for (int i = 0; i < spawnAmount; i++) {
+            enemies.add(new Enemy(player.getHitbox()));
+        }
+
+        nextEnemy = SPAWNCOOLDOWN;  // Reset the cooldown
     }
 
     /**
