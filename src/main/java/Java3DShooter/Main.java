@@ -34,11 +34,6 @@ public class Main extends Application {
     private final Group enemyGroup = new Group();
 
     /**
-     * Amount of enemies to spawn per spawn tick
-     */
-    private int spawnAmount = 1;
-
-    /**
      * Stores all the enemies
      */
     private ArrayList<Enemy> enemies = new ArrayList<>();
@@ -52,6 +47,11 @@ public class Main extends Application {
      * Time left in frames before next enemy spawns
      */
     private int nextEnemy = SPAWNCOOLDOWN;
+
+    /**
+     * Amount of enemies to spawn per spawn tick
+     */
+    private int spawnAmount = 1;
 
     /**
      * The total number of enemies killed
