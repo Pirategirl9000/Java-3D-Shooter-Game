@@ -292,9 +292,7 @@ public class Player extends Group {
     private void moveBullets() {
         ArrayList<Bullet> deadProjectiles = new ArrayList<>();
 
-        for (int i = 0; i < projectiles.size(); i++) {
-            Bullet bullet = projectiles.get(i);
-
+        for (Bullet bullet : projectiles) {
             // If the bullet's TTL is expired we add it to the deadProjectiles list to remove later
             if (bullet.getTimeToLive() <= 0) {
                 deadProjectiles.add(bullet);
