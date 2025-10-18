@@ -192,7 +192,7 @@ public class Main extends Application {
             }
         }
 
-        cullDeadEnemies(deadEnemies); // Removes all dead enemies
+        cullDeadEnemies(deadEnemies); // Removes all dead enemies and updates kill counter
     }
 
     /**
