@@ -64,17 +64,13 @@ ___
 #
 ### When a bullet is created it receives a position and velocity vector based on the spherical coordinate system so it knows where it starts and what direction it goes in
 ### This is all calculated in the Player class so that the bullet can remain very nodal by nature
-### Due to Bullet being nodal it only has two methods associated with it, getTimeToLive() and move()
 #
 ### The move() method updates the bullets position by its velocities and then decreases it's remaining timeToLive by one
 ### timeToLive is the number of frames the bullet will exist for before the Player class will kill it
 ### The getTimeToLive() function allows the player class to access the TTL and cull bullets whose TTL has expired
+### The killBullet() function immediately sets the bullet's TTL to 0 which can be used to kill a bullet early when it hits something
 #
 ### The bullet takes in a base velocity on initialization which is then multiplied by the BULLETSPEED to create the finalized velocity vector for the bullet
-#
-### Bullets cannot be shot directly up, this is a result of the fact that the x-z tilt will always affect the movement of the bullet in a similar way
-### The x-z direction of the camera is a constant force that is not affected by the vertical tilt of the camera
-#
 ![Diagram of the Bullet Class](resources/BulletDiagram.png)
 ___
 ## Enemy
