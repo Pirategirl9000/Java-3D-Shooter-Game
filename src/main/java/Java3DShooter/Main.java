@@ -107,7 +107,6 @@ public class Main extends Application {
 
         public void handle(long now) {
             // Player logic
-            if (player.isDead()) {this.stop();}  // stops the gameLoop if the player is dead
             player.move(keysHeld);  // Note: this also moves all bullets by one frame
 
 
@@ -129,6 +128,11 @@ public class Main extends Application {
                 currentEnemy.move(player.getX(), player.getZ());
                 if (isColliding(currentEnemy, player.getHitbox())) {
                     player.takeDamage(currentEnemy.getDamage());
+
+                    if (player.isDead()) {
+                        this.stop(); // stops the gameLoop if the player is dead
+                        return;
+                    }
                 }
             }
 
