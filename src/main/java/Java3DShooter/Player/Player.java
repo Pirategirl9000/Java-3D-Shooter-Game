@@ -81,6 +81,11 @@ public class Player extends Group {
     private static final double SPEED = 1.5;
 
     /**
+     * How much faster the player moves when running (holding shift)
+     */
+    private static final double RUNSPEEDMULT = 1.2;
+
+    /**
      * How high the player can jump
      */
     private static final double JUMPHEIGHT = 3;
@@ -369,6 +374,8 @@ public class Player extends Group {
         double[] zMotionVector = calculateMotionVector(yaw.getAngle());
         double[] xMotionVector = calculateMotionVector(yaw.getAngle() + 90);
 
+        boolean isRunning = false;
+
         // Handle the different key presses here
         for (String key : keysHeld.keySet()) {
             switch (key) {
@@ -410,7 +417,7 @@ public class Player extends Group {
                     }
                     break;
                 case "Shift":
-                    velocity[1] = SPEED;
+                    isRunning = true;
                     break;
                 case "Y":
                     shoot();
@@ -420,6 +427,12 @@ public class Player extends Group {
 
         // Gravity is acceleration so we add gravity every frame to our velocity
         velocity[1] += GRAVITY;
+
+        // Multiply by the runspeed mult if they are running
+        if (isRunning) {
+            velocity[0] *= RUNSPEEDMULT;
+            velocity[2] *= RUNSPEEDMULT;
+        }
 
         // If they are below the floor we bring them back up
         double newYPosition = Math.min(camera.getTranslateY() + GRAVITY + velocity[1], groundPlaneBoundingBox[1][0] - PLAYERHEIGHT);
