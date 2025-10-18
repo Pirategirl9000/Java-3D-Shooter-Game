@@ -26,7 +26,7 @@ public class Player extends Group {
     /**
      * The amount of frames that must pass before the player takes damage again
      */
-    private static final int invulnerabilityFramesTotal = 60;
+    private static final int invulnerabilityFramesTotal = 60 * 1;
 
     /**
      * The amount of frames remaining until the player can take damage again
