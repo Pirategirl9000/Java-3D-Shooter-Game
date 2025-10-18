@@ -4,6 +4,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 
+/**
+ * Represents a single bullet; contains methods for handling the bullet
+ */
 public class Bullet extends Box {
     /**
      * Width of the bullet
