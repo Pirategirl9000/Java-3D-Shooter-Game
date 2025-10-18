@@ -5,6 +5,12 @@ import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 import java.util.Random;
 
+/**
+ * The Enemy class represents a single enemy in the game. It contains methods relating to its movement, taking damage, spawn location, etc.
+ * <p></p>
+ * Before any Enemy's can be created you have to initialize the groundPlaneBoundingBox which is the groundPlane you wish to spawn the enemy on
+ * After initializing it you can create enemies without issue
+ */
 public class Enemy extends Box {
 
     /**
@@ -60,12 +66,12 @@ public class Enemy extends Box {
     /**
      * Max hitpoints for an enemy. This is their starting hp
      */
-    private static final double MAXHP = 1;
+    private static double MaxHP = 1;
 
     /**
      * Current HP of the enemy
      */
-    private double HP = MAXHP;
+    private double HP = MaxHP;
 
     /**
      * initializes a new Enemy
