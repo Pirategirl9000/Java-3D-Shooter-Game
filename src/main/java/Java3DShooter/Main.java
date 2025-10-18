@@ -44,6 +44,8 @@ public class Main extends Application {
      */
     private int nextEnemy = SPAWNCOOLDOWN;
 
+    private int enemiesKilled = 0;
+
     /**
      * Scene which is being displayed by the stage. Displays what is contained in the Group 'root'
      */
@@ -135,6 +137,9 @@ public class Main extends Application {
                     }
                 }
             }
+
+            // Update the kill counter
+            enemiesKilled += deadEnemies.size();
 
             // Get rid of all dead enemies
             enemies.removeAll(deadEnemies);
