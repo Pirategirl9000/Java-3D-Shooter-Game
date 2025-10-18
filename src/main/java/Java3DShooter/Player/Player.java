@@ -99,18 +99,18 @@ public class Player extends Group {
     private double[] velocity = {0, 0, 0};  // x, y, z move velocity
 
     /**
-     * The xTilt transformer of the camera
-     * <p>
-     * It says Rotate.Y_AXIS but this is backwards because of how FX considers the coordinate plane
+     * The yaw(rotation around the y-axis) transformer of the camera
+     * <p></p>
+     * Used for left and right looking
      */
-    private final Rotate xTilt = new Rotate(0, Rotate.Y_AXIS);
+    private final Rotate yaw = new Rotate(0, Rotate.Y_AXIS);
 
     /**
-     * The yTilt transformer of the camera
-     * <p>
-     * It says Rotate.X_AXIS but this is backwards because of how FX considers the coordinate plane
+     * The pitch(rotation around the x-axis) transformer of the camera
+     * <p></p>
+     * Used for up and down looking
      */
-    private final Rotate yTilt = new Rotate(0, Rotate.X_AXIS);
+    private final Rotate pitch = new Rotate(0, Rotate.X_AXIS);
 
     /**
      * Initializes a player with x, y, and z position as well as a set farClip and nearClip for the camera
@@ -121,7 +121,7 @@ public class Player extends Group {
      * @param nearClip nearClip of the camera (near-render distance)
      */
     public Player(int x, int y , int z, int farClip, int nearClip) {
-        initializeCamera(x, y, z, farClip, nearClip, new Transform[] {xTilt, yTilt});
+        initializeCamera(x, y, z, farClip, nearClip, new Transform[] {yaw, pitch});
         initializeHitbox(x, y, z);
         this.getChildren().add(projectilesGroup); // Stores and updates the currently living bullets
     }
@@ -242,14 +242,27 @@ public class Player extends Group {
     private void shoot() {
         if (nextShot > 0) {return;}  // They are still on cooldown
 
-        double[] xTiltVector = calculateMotionVector(xTilt.getAngle());
-        double[] yTiltVector = calculateMotionVector(yTilt.getAngle());
+        double yawRad = Math.toRadians(yaw.getAngle());
+        double pitchRad = Math.toRadians(pitch.getAngle());
+
+        // This bit of calculation uses a concept known as 3D kinematics
+        // Because we have a 3D environment our motion vector changes a little bit
+        // If we don't account for the y-angle in our x and z velocities the bullet will not go straight up or down when it's shot in those directions
+        // The trigonometric representation of a 3D vector is defined below
+        // <r * sin(yaw) * cos(pitch), r * sin(pitch), r * cos(yaw) * cos(pitch)>
+        // For more information and to see the original formulas view https://math.libretexts.org/Bookshelves/Calculus/Calculus_%28OpenStax%29/12%3A_Vectors_in_Space/12.07%3A_Cylindrical_and_Spherical_Coordinates
+        // My basic understanding of it is that these are the formulas for converting spherical coordinates (like Cartesian but in the 3rd dimension) back to rectangular coordinates
+        // We worked with Cartesian to rectangular back in the enemy spawn mechanics for reference
+        double xVel = Math.sin(yawRad) * Math.cos(pitchRad);
+        double yVel = -Math.sin(pitchRad); // Negative because upward tilt is negative angle
+        double zVel = Math.cos(yawRad) * Math.cos(pitchRad);
+
 
         // Add a new bullet to the projectiles list with the camera's coordinates then the velocity of the x, y, and z axis
         // Y-axis is negative here because of how the y-axis is reversed in the world of programming
         projectiles.add(new Bullet(
                 camera.getTranslateX(), camera.getTranslateY(), camera.getTranslateZ(),
-                xTiltVector[1], -yTiltVector[1], xTiltVector[0]
+                xVel, yVel, zVel
         ));
 
         // Set the cooldown before their next shot
@@ -314,8 +327,8 @@ public class Player extends Group {
 
 
         // Calculate our motionVectors for x and z axial movement
-        double[] zMotionVector = calculateMotionVector(xTilt.getAngle());
-        double[] xMotionVector = calculateMotionVector(xTilt.getAngle() + 90);
+        double[] zMotionVector = calculateMotionVector(yaw.getAngle());
+        double[] xMotionVector = calculateMotionVector(yaw.getAngle() + 90);
 
         // Handle the different key presses here
         for (String key : keysHeld.keySet()) {
@@ -369,8 +382,8 @@ public class Player extends Group {
         setTranslate(hitbox, newPosition[0], newPosition[1], newPosition[2]);
 
         // Camera Movement
-        double newXTilt = xTilt.getAngle() + turnVelocity[0];
-        double newYTilt = yTilt.getAngle() + turnVelocity[1];
+        double newXTilt = yaw.getAngle() + turnVelocity[0];
+        double newYTilt = pitch.getAngle() + turnVelocity[1];
 
         // Constrain how far they can look up or down to a 180deg range
         if (newYTilt > 90) {
@@ -379,7 +392,7 @@ public class Player extends Group {
             newYTilt = -90;
         }
 
-        xTilt.setAngle(newXTilt);
-        yTilt.setAngle(newYTilt);
+        yaw.setAngle(newXTilt);
+        pitch.setAngle(newYTilt);
     }
 }
