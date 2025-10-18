@@ -308,7 +308,7 @@ public class Player extends Group {
      * Reduces the player's health by the damage taken unless the player is already dead or have invulnerability frames remaining
      * @param damage damage taken
      */
-    public void takeDamage(int damage) {
+    public void takeDamage(double damage) {
         if (isDead()) {return;}  // Player is already dead
         if (invulnerabilityFrames > 0) {return;}
         invulnerabilityFrames = invulnerabilityFramesTotal;

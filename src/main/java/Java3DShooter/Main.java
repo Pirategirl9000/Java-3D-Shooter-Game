@@ -127,6 +127,9 @@ public class Main extends Application {
                 }
 
                 currentEnemy.move(player.getX(), player.getZ());
+                if (isColliding(currentEnemy, player.getHitbox())) {
+                    player.takeDamage(currentEnemy.getDamage());
+                }
             }
 
             // Get rid of all dead enemies

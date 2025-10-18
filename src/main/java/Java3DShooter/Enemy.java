@@ -43,6 +43,16 @@ public class Enemy extends Box {
     private static final double SPEED = 1;
 
     /**
+     * The damage any new instances of Enemy will do
+     */
+    private static final double MAXDAMAGE = 1.0;
+
+    /**
+     * The damage this instance of Enemy does
+     */
+    private final double DAMAGE = MAXDAMAGE;
+
+    /**
      * The closest an enemy can spawn to the player
      */
     private static final int minDistanceFromPlayerOnSpawn = 500;
@@ -134,6 +144,12 @@ public class Enemy extends Box {
      * @param boundingBox the bounding box as defined by {{xMin, xMax}, {yMin, yMax}, {zMin, zMax}}
      */
     public static void setGroundPlaneBoundingBox(double[][] boundingBox) { groundPlaneBoundingBox = boundingBox; }
+
+    /**
+     * Returns the damage the enemy deals
+     * @return the damage dealt as a double
+     */
+    public double getDamage() {return DAMAGE;}
 
     public boolean isDead() { return this.HP <= 0;}
 
