@@ -376,6 +376,11 @@ public class Player extends Group {
 
         boolean isRunning = false;
 
+        // Stores our total velocity vectors after considering all held keys
+        // This allows movement via two keys at once e.g. 'a' & 'w'
+        double vx = 0;
+        double vz = 0;
+
         // Handle the different key presses here
         for (String key : keysHeld.keySet()) {
             switch (key) {
@@ -393,22 +398,23 @@ public class Player extends Group {
                     turnVelocity[0] = LOOKSPEED;
                     break;
 
+
                 // Movement Controls
                 case "W":
-                    velocity[0] = zMotionVector[1] * SPEED;
-                    velocity[2] = zMotionVector[0] * SPEED;
+                    vx += zMotionVector[1];
+                    vz += zMotionVector[0];
                     break;
                 case "S":
-                    velocity[0] = zMotionVector[1] * -SPEED;
-                    velocity[2] = zMotionVector[0] * -SPEED;
+                    vx -= zMotionVector[1];
+                    vz -= zMotionVector[0];
                     break;
                 case "A":
-                    velocity[0] = xMotionVector[1] * -SPEED;
-                    velocity[2] = xMotionVector[0] * -SPEED;
+                    vx -= xMotionVector[1];
+                    vz -= xMotionVector[0];
                     break;
                 case "D":
-                    velocity[0] = xMotionVector[1] * SPEED;
-                    velocity[2] = xMotionVector[0] * SPEED;
+                    vx += xMotionVector[1];
+                    vz += xMotionVector[0];
                     break;
                 case "Space":
                     if (canJump) {
@@ -423,6 +429,16 @@ public class Player extends Group {
                     shoot();
                     break;
             }
+        }
+
+        // Magnitude allows for normalization of the velocity vectors
+        // Normalization means that if they hold two different movement keys at once they won't go any faster than if they were to hold just one
+        //
+        double magnitude = Math.sqrt(Math.pow(vx, 2) + Math.pow(vz, 2));
+
+        if (magnitude != 0) {
+            velocity[0] = (vx / magnitude) * SPEED;
+            velocity[2] = (vz / magnitude) * SPEED;
         }
 
         // Gravity is acceleration so we add gravity every frame to our velocity
