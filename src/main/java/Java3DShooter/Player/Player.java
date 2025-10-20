@@ -434,8 +434,27 @@ public class Player extends Group {
             velocity[2] *= RUNSPEEDMULT;
         }
 
-        // If they are below the floor we bring them back up
+        // Get their next position
+        double newXPosition = camera.getTranslateX() + velocity[0];
+        double newZPosition = camera.getTranslateZ() + velocity[2];
+
+        // Make sure their y is above the floor and doesn't phase through it
         double newYPosition = Math.min(camera.getTranslateY() + GRAVITY + velocity[1], groundPlaneBoundingBox[1][0] - PLAYERHEIGHT);
+
+
+        // Ensure they are within the x and z bounds
+        if (newXPosition > groundPlaneBoundingBox[0][1]) {
+            newXPosition = groundPlaneBoundingBox[0][1];
+        } else if (newXPosition < groundPlaneBoundingBox[0][0]) {
+            newXPosition = groundPlaneBoundingBox[0][0];
+        }
+
+        if (newZPosition > groundPlaneBoundingBox[2][1]) {
+            newZPosition = groundPlaneBoundingBox[2][1];
+        } else if (newZPosition < groundPlaneBoundingBox[2][0]) {
+            newZPosition = groundPlaneBoundingBox[2][0];
+        }
+
 
         // If they got their position reset we also reset their gravity and jump flag so they can jump next frame
         if (newYPosition == groundPlaneBoundingBox[1][0] - PLAYERHEIGHT) {
@@ -444,9 +463,8 @@ public class Player extends Group {
         }
 
         // Set the new position
-        double[] newPosition = {camera.getTranslateX() + velocity[0], newYPosition, camera.getTranslateZ() + velocity[2]};
-        setTranslate(camera, newPosition[0], newPosition[1], newPosition[2]);
-        setTranslate(hitbox, newPosition[0], newPosition[1], newPosition[2]);
+        setTranslate(camera, newXPosition, newYPosition, newZPosition);
+        setTranslate(hitbox, newXPosition, newYPosition, newZPosition);
 
         // Camera Movement
         double newXTilt = yaw.getAngle() + turnVelocity[0];
