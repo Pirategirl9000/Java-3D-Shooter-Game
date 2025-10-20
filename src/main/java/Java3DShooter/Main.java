@@ -54,6 +54,11 @@ public class Main extends Application {
     private int spawnAmount = 1;
 
     /**
+     * Maximum enemies that can exist at a time
+     */
+    private int spawnCap = 40;
+
+    /**
      * The total number of enemies killed
      */
     private int enemiesKilled = 0;
@@ -189,7 +194,8 @@ public class Main extends Application {
      * Spawns a new enemy a preset distance from the player
      */
     private void spawnEnemies() {
-        for (int i = 0; i < spawnAmount; i++) {
+        // Only spawns enemies up to the spawn cap
+        for (int i = 0; i < spawnAmount && enemies.size() < spawnCap; i++) {
             enemies.add(new Enemy(player.getHitbox()));
         }
 
