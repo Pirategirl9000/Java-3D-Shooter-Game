@@ -97,6 +97,12 @@ public class Enemy extends Box {
     }
 
     /**
+     * Returns the damage the enemy deals
+     * @return the damage dealt as a double
+     */
+    public double getDamage() {return DAMAGE;}
+
+    /**
      * Sets the spawn location for the enemy based
      */
     private void setSpawn(Box player) {
@@ -150,12 +156,6 @@ public class Enemy extends Box {
      * @param boundingBox the bounding box as defined by {{xMin, xMax}, {yMin, yMax}, {zMin, zMax}}
      */
     public static void setGroundPlaneBoundingBox(double[][] boundingBox) { groundPlaneBoundingBox = boundingBox; }
-
-    /**
-     * Returns the damage the enemy deals
-     * @return the damage dealt as a double
-     */
-    public double getDamage() {return DAMAGE;}
 
     /**
      * Returns whether this enemy's health is less than or equal to 0
