@@ -128,7 +128,7 @@ public class Player extends Group {
     /**
      * The force of gravity upon the player. Serves as an acceleration
      */
-    private final double GRAVITY = 0.2;
+    private final double GRAVITY = 0.1;
 
     /**
      * The yaw(rotation around the y-axis) transformer of the camera
@@ -433,7 +433,6 @@ public class Player extends Group {
 
         // Magnitude allows for normalization of the velocity vectors
         // Normalization means that if they hold two different movement keys at once they won't go any faster than if they were to hold just one
-        //
         double magnitude = Math.sqrt(Math.pow(vx, 2) + Math.pow(vz, 2));
 
         if (magnitude != 0) {
@@ -455,7 +454,7 @@ public class Player extends Group {
         double newZPosition = camera.getTranslateZ() + velocity[2];
 
         // Make sure their y is above the floor and doesn't phase through it
-        double newYPosition = Math.min(camera.getTranslateY() + GRAVITY + velocity[1], groundPlaneBoundingBox[1][0] - PLAYERHEIGHT);
+        double newYPosition = Math.min(camera.getTranslateY() + velocity[1], groundPlaneBoundingBox[1][0] - PLAYERHEIGHT);
 
 
         // Ensure they are within the x and z bounds
