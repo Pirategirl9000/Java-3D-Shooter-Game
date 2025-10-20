@@ -101,7 +101,7 @@ public class Player extends Group {
     /**
      * Look speed for the camera, impacts how fast the camera will tilt
      */
-    private static final double LOOKSPEED = 1;
+    private static final double LOOKSPEED = 0.75;
 
     /**
      * Field of view of the camera
