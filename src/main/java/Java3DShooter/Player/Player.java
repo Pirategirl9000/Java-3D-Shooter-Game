@@ -353,8 +353,9 @@ public class Player extends Group {
     /**
      * Moves the player forward a frame
      * @param keysHeld the keys currently being help
+     * @throws IndexOutOfBoundsException if the groundPlaneBoundingBox was improperly configured
      */
-    public void move(Map<String, Boolean> keysHeld) {
+    public void move(Map<String, Boolean> keysHeld) throws IndexOutOfBoundsException {
         // Update the bullet's positions
         moveBullets();
 
