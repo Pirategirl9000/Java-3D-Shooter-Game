@@ -53,6 +53,9 @@ public class Player extends Group {
      */
     private double HP = MAXHP;
 
+    /**
+     * The groundPlaneBoundingBox for the player. This will constrict the player's movement to it and allow the player to not fall through the ground
+     */
     private final double[][] groundPlaneBoundingBox;
 
     /**
