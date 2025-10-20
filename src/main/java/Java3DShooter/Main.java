@@ -329,14 +329,16 @@ public class Main extends Application {
         Box ground = createBox(GROUNDWIDTH, GROUNDHEIGHT, GROUNDDEPTH, 0, GROUNDHEIGHT * 0.5, 0, Color.GREEN);
         Box sun = createBox(SUNDIMENSIONS[0], SUNDIMENSIONS[1], SUNDIMENSIONS[2], SUNCOORDS[0], SUNCOORDS[1], SUNCOORDS[2], Color.YELLOW);
 
+        double[][] groundPlaneBoundingBox = calculateBoundingBox(ground);
+
         // Initialize the player
-        player = new Player(calculateBoundingBox(ground));
+        player = new Player(groundPlaneBoundingBox);
 
         // Initialize the scene
         initializeScene();
 
         // Pass the boundingBox for the ground plane to the Enemy class so it knows how to spawn the enemies
-        Enemy.setGroundPlaneBoundingBox(calculateBoundingBox(ground));
+        Enemy.setGroundPlaneBoundingBox(groundPlaneBoundingBox);
 
         // Add the objects to root
         root.getChildren().addAll(transflag);
