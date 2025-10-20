@@ -26,12 +26,12 @@ public class Bullet extends Box {
     /**
      * Speed of the bullet, serves as a magnitude for the motion vector
      */
-    private static final double BULLETSPEED = 1;
+    private static final double BULLETSPEED = 5;
 
     /**
      * Number of move frames before the bullet dies
      */
-    private int timeToLive = 3000;
+    private int timeToLive = 600;
 
     /**
      * Color of the bullets
