@@ -435,6 +435,7 @@ public class Player extends Group {
                     isRunning = true;
                     break;
                 case "Y":
+                case "PRIMARY":  // Left click
                     shoot();
                     break;
             }

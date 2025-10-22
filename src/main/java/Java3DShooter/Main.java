@@ -4,10 +4,7 @@ import Java3DShooter.Player.Bullet;
 import Java3DShooter.Player.Player;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.AmbientLight;
+import javafx.scene.*;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.robot.Robot;
 import javafx.stage.Stage;
@@ -280,11 +277,16 @@ public class Main extends Application {
     private void initializeScene() {
         scene.setCamera(player.getCamera());
         scene.setFill(Color.SKYBLUE);
+        scene.setCursor(Cursor.NONE);  // Make the cursor invisble
 
-        // Set up keyListeners
+
+        // Set up keyListeners and mouseListeners
         // See AnimationTimer for keyHandling
         scene.setOnKeyPressed(e -> keysHeld.put(e.getCode().getName(), true));
         scene.setOnKeyReleased(e -> keysHeld.remove(e.getCode().getName()));
+
+        scene.setOnMousePressed(e -> keysHeld.put(e.getButton().toString(), true));
+        scene.setOnMouseReleased(e -> keysHeld.remove(e.getButton().toString()));
     }
 
     /**
