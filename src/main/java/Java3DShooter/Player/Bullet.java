@@ -26,7 +26,7 @@ public class Bullet extends Box {
     /**
      * Speed of the bullet, serves as a magnitude for the motion vector
      */
-    private static final double BULLETSPEED = 5;
+    private static final double BULLETSPEED = 10;
 
     /**
      * Number of move frames before the bullet dies
