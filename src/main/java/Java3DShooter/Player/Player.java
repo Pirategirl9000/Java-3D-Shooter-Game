@@ -106,7 +106,7 @@ public class Player extends Group {
     /**
      * Field of view of the camera
      */
-    private static final double FOV = 40F;
+    private static final double FOV = 30F;
 
     /**
      * The camera for the 3D environment, initialized through the initializeCamera(args) function
