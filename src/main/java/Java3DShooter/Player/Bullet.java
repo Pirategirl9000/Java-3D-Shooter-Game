@@ -31,7 +31,7 @@ public class Bullet extends Box {
     /**
      * Number of move frames before the bullet dies
      */
-    private int timeToLive = 600;
+    private int timeToLive = 300;
 
     /**
      * Color of the bullets
