@@ -9,6 +9,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.AmbientLight;
 import javafx.scene.paint.PhongMaterial;
+import javafx.scene.robot.Robot;
 import javafx.stage.Stage;
 import javafx.scene.shape.Box;
 import javafx.scene.paint.Color;
@@ -69,6 +70,11 @@ public class Main extends Application {
     private final Scene scene = new Scene(root, 1920, 1080, true);
 
     /**
+     * Robot keeps track of mouse's position for calculating the mouse deltas and resets the mouse position to the center of the screen
+     */
+    private final Robot robot = new Robot();
+
+    /**
      * HashMap that tracks what keys are currently held
      * <p>
      * Through my testing this seems to be one of the fastest ways for adding and removing based on the value
@@ -109,16 +115,42 @@ public class Main extends Application {
     private static final int GROUNDDEPTH = GROUNDWIDTH;
 
     /**
+     * Dead zone represents the distance from zero the raw mouse deltas have to be. If this number is too small it will cause the camera to move off in wierd directions automatically
+     */
+    private static final double DEADZONE = 0.6;
+
+    /**
      * AnimationTimer that controls the game loop
      */
     private final AnimationTimer gameLoop = new AnimationTimer() {
         public void handle(long now) {
+            // Recalculate screen centers in case of window size change
+            double centerX = scene.getX() + 0.5 * scene.getWidth();
+            double centerY = scene.getY() + 0.5 * scene.getHeight();
+
+            // Get the raw mouse deltas - how far the mouse has moved this frame
+            double deltaX = robot.getMouseX() - centerX;
+            double deltaY = robot.getMouseY() - centerY;
+
+            // account for the deadzone by checking if the delta passed a certain threshold
+            // If we don't account for the deadzone the mouse will always be considered moving in some direction
+            // In my testing it levels at around 0.5 pixels in distance from the center
+            if (deltaX <= DEADZONE && deltaX >= -DEADZONE) { deltaX = 0.0; }
+            if (deltaY <= DEADZONE && deltaY >= -DEADZONE) { deltaY = 0.0; }
+
+            // Recenter the mouse for the next frame of mouse looking
+            robot.mouseMove(centerX, centerY);
+
+
             // Player logic
             if (player.isDead()) {
                 this.stop(); // stops the gameLoop if the player is dead
                 return;
             }
+
             player.move(keysHeld);  // Note: this also moves all bullets by one frame
+
+            player.look(deltaX, deltaY);
 
             moveEnemies();
 

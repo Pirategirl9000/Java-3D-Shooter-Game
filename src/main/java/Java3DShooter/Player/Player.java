@@ -101,7 +101,7 @@ public class Player extends Group {
     /**
      * Look speed for the camera, impacts how fast the camera will tilt
      */
-    private static final double LOOKSPEED = 0.75;
+    private static final double LOOKSPEED = 0.2;
 
     /**
      * Field of view of the camera
@@ -352,6 +352,11 @@ public class Player extends Group {
      * @return isDead?
      */
     public boolean isDead() { return this.HP <= 0; }
+
+    public void look(double deltaX, double deltaY) {
+        pitch.setAngle(pitch.getAngle() - (deltaY * LOOKSPEED));
+        yaw.setAngle(yaw.getAngle() + (deltaX * LOOKSPEED));
+    }
 
     /**
      * Moves the player forward a frame
