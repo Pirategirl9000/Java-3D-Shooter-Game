@@ -353,6 +353,11 @@ public class Player extends Group {
      */
     public boolean isDead() { return this.HP <= 0; }
 
+    /**
+     * Adjusts the camera's angle based on the difference in x and y
+     * @param deltaX the direction and amount of movement left or right; optimized for mouse movement
+     * @param deltaY the direction and amount of movement up or down; optimized for mouse movement
+     */
     public void look(double deltaX, double deltaY) {
         pitch.setAngle(pitch.getAngle() - (deltaY * LOOKSPEED));
         yaw.setAngle(yaw.getAngle() + (deltaX * LOOKSPEED));
