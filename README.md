@@ -75,5 +75,31 @@ ___
 ___
 ## Enemy
 ### The Enemy class represents a single enemy within the system
+#
+### Enemies are spawned in a radius around the player so that they won't instantly hit the player
+### Their positions are randomized along a disk where the outer rings of the disk are a circumscribed circle within the ground plane and a set distance around the player
+### Their spawns are determined using a uniform radial distribution
+#
+### The uniform radial distribution uses randomized polar coordinate for the spawn location that gets converted to rectangular to determine their position
+### It works by first getting a random angle (0, 2PI]
+### After getting the angle it determines the minimum and maximum squared radii for the spawn ring
+### The minimum is determined by the minDistanceFromPlayer that enemies can spawn; then we square it
+### The maximum is a circle with radius equal to the width of the ground plane meaning it will be circumscribed inside the ground plane; then we square it
+### After getting the squared radii for max and min we get a random radius between those two for our enemy to spawn at
+### Using the randomized angle and randomized radius we can then convert those from polar coordinates to rectangular coordinates to get our enemies spawn location
+#
+### Enemies are boxes so they can be passed directly to collision calculations to determine if they are colliding with something
+### Enemies can take damage from these collisions by calling the takeDamage(double damage) method
+### An enemy is considered dead when its health is 0 and can be found out by calling enemy.isDead(). The main class does this when it cleans up dead enemies
+### An enemy can be removed by deleting it's reference in the enemies arraylist of the main class
+#
+### Enemies can spawn in groups which can be configred in the main class
+### Enemies have a spawn cap that is defined in the main class, no enemies will be spawned once the cap is reached
+#
+### Enemies have an attribute DAMAGE which defines how much damage they deal on hit, this can be retrieved using enemy.getDamage()
+#
+### Enemies always move in the direction of the player in a straight line
+### The direction the enemies will move in is calculating by using the difference in x and z coordinates between the player and enemy to calculate the hypotenuse
+### Each enemy does these calculations itself through the move(double playerX, double playerZ) method.
 [Diagram of the Enemy Class](resources/EnemyDiagram.png)
 
