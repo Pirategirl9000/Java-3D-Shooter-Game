@@ -91,7 +91,7 @@ ___
 ### Enemies are boxes so they can be passed directly to collision calculations to determine if they are colliding with something
 ### Enemies can take damage from these collisions by calling the takeDamage(double damage) method
 ### An enemy is considered dead when its health is 0 and can be found out by calling enemy.isDead(). The main class does this when it cleans up dead enemies
-### An enemy can be removed by deleting it's reference in the enemies arraylist of the main class
+### An enemy can be removed by deleting its reference in the enemies arraylist of the main class
 #
 ### Enemies can spawn in groups which can be configred in the main class
 ### Enemies have a spawn cap that is defined in the main class, no enemies will be spawned once the cap is reached
