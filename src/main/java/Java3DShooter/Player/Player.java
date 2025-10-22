@@ -18,10 +18,6 @@ import java.util.Map;
  * movement controls when called
  */
 public class Player extends Group {
-    /**
-     * Height of the player's hitbox in pixels
-     */
-    private static final int PLAYERHEIGHT = 20;
 
     /**
      * The amount of frames that must pass before the player takes damage again
@@ -32,6 +28,11 @@ public class Player extends Group {
      * The amount of frames remaining until the player can take damage again
      */
     private static int invulnerabilityFrames = 0;
+
+    /**
+     * Height of the player's hitbox in pixels
+     */
+    private static final int PLAYERHEIGHT = 20;
 
     /**
      * Width of the player's hitbox in pixels
