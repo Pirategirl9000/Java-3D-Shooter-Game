@@ -1,5 +1,6 @@
 package Java3DShooter.Player;
 
+import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.PerspectiveCamera;
@@ -285,20 +286,13 @@ public class Player extends Group {
     private void shoot() {
         if (nextShot > 0) {return;}  // They are still on cooldown
 
-        double yawRad = Math.toRadians(yaw.getAngle());
-        double pitchRad = Math.toRadians(pitch.getAngle());
+        // Get our velocity vector with respect to the camera's angle
+        // We do it this way rather than using spherical coordinates since this makes sure the bullet is fired towards the center of the screen
+        // This means bullets will be more accurate
+        Point3D forward = camera.localToSceneTransformProperty().getValue().deltaTransform(new Point3D(0, 0, 1));
+        Point3D velocity = forward.normalize();
 
-        // This bit of calculation uses a concept known as 3D kinematics
-        // Because we have a 3D environment our motion vector changes a little bit
-        // If we don't account for the y-angle in our x and z velocities the bullet will not go straight up or down when it's shot in those directions
-        // The trigonometric representation of a 3D vector is defined below where: r = magnitude, pitch = vertical angle around x-axis, yaw = horizontal angle around y-axis
-        // <r * sin(yaw) * cos(pitch), r * sin(pitch), r * cos(yaw) * cos(pitch)>
-        // For more information and to see the original formulas view https://math.libretexts.org/Bookshelves/Calculus/Calculus_%28OpenStax%29/12%3A_Vectors_in_Space/12.07%3A_Cylindrical_and_Spherical_Coordinates
-        // My basic understanding of it is that these are the formulas for converting spherical coordinates (like Polar but in the 3rd dimension) back to rectangular(Cartesian) coordinates
-        // We worked with Polar to rectangular(Cartesian) back in the enemy spawn mechanics for reference
-        double xRelVel = Math.sin(yawRad) * Math.cos(pitchRad);
-        double yRelVel = -Math.sin(pitchRad); // Negative because upward tilt is negative angle
-        double zRelVel = Math.cos(yawRad) * Math.cos(pitchRad);
+
 
         // We don't apply a magnitude here since that is for the bullet class to calculate thus why these are called Relative velocities
         // The bullets handle their own speed, the player handles calculation of the angle since it has the camera element
@@ -307,7 +301,7 @@ public class Player extends Group {
         // Y-axis is negative here because of how the y-axis is reversed in the world of programming
         projectiles.add(new Bullet(
                 camera.getTranslateX(), camera.getTranslateY(), camera.getTranslateZ(),
-                xRelVel, yRelVel, zRelVel
+                velocity.getX(), velocity.getY(), velocity.getZ()
         ));
 
         // Set the cooldown before their next shot
