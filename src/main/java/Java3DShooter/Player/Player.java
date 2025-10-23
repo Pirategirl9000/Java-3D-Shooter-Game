@@ -354,8 +354,19 @@ public class Player extends Group {
      * @param deltaY the direction and amount of movement up or down; optimized for mouse movement
      */
     public void look(double deltaX, double deltaY) {
-        pitch.setAngle(pitch.getAngle() - (deltaY * LOOKSPEED));
-        yaw.setAngle(yaw.getAngle() + (deltaX * LOOKSPEED));
+        // Camera Movement
+        double newPitch = pitch.getAngle() - (deltaY * LOOKSPEED);
+        double newYaw = yaw.getAngle() + (deltaX * LOOKSPEED);
+
+        // Constrain how far they can look up or down to a 180deg range
+        if (newPitch > 90) {
+            newPitch = 90;
+        } else if (newPitch < -90) {
+            newPitch = -90;
+        }
+
+        pitch.setAngle(newPitch);
+        yaw.setAngle(newYaw);
     }
 
     /**
@@ -393,21 +404,6 @@ public class Player extends Group {
         // Handle the different key presses here
         for (String key : keysHeld.keySet()) {
             switch (key) {
-                // Camera Controls
-                case "Up":
-                    turnVelocity[1] = LOOKSPEED;
-                    break;
-                case "Down":
-                    turnVelocity[1] = -LOOKSPEED;
-                    break;
-                case "Left":
-                    turnVelocity[0] = -LOOKSPEED;
-                    break;
-                case "Right":
-                    turnVelocity[0] = LOOKSPEED;
-                    break;
-
-
                 // Movement Controls
                 case "W":
                     vx += zMotionVector[1];
@@ -490,19 +486,5 @@ public class Player extends Group {
         // Set the new position
         setTranslate(camera, newXPosition, newYPosition, newZPosition);
         setTranslate(hitbox, newXPosition, newYPosition, newZPosition);
-
-        // Camera Movement
-        double newXTilt = yaw.getAngle() + turnVelocity[0];
-        double newYTilt = pitch.getAngle() + turnVelocity[1];
-
-        // Constrain how far they can look up or down to a 180deg range
-        if (newYTilt > 90) {
-            newYTilt = 90;
-        } else if (newYTilt < -90) {
-            newYTilt = -90;
-        }
-
-        yaw.setAngle(newXTilt);
-        pitch.setAngle(newYTilt);
     }
 }
