@@ -73,7 +73,7 @@ public class Player extends Group {
     /**
      * All the current projectiles fired by the player as a list of Bullet's
      */
-    private final ArrayList<Bullet> projectiles = new ArrayList<>();
+    private final ArrayList<BasicBullet> projectiles = new ArrayList<>();
 
     /**
      * All the projectiles as a group
@@ -215,8 +215,8 @@ public class Player extends Group {
      * Gets all the bullets as an array of Bullets
      * @return Bullet[] bullets
      */
-    public Bullet[] getBullets() {
-        return projectiles.toArray(new Bullet[0]);
+    public BasicBullet[] getBullets() {
+        return projectiles.toArray(new BasicBullet[0]);
     }
 
     /**
@@ -299,7 +299,7 @@ public class Player extends Group {
 
         // Add a new bullet to the projectiles list with the camera's coordinates then the velocity of the x, y, and z axis
         // Y-axis is negative here because of how the y-axis is reversed in the world of programming
-        projectiles.add(new Bullet(
+        projectiles.add(new BasicBullet(
                 camera.getTranslateX(), camera.getTranslateY(), camera.getTranslateZ(),
                 velocity.getX(), velocity.getY(), velocity.getZ()
         ));
@@ -313,9 +313,9 @@ public class Player extends Group {
      * Updates the positions of every bullet and kills any bullets whose timeToLive is expired
      */
     private void moveBullets() {
-        ArrayList<Bullet> deadProjectiles = new ArrayList<>();
+        ArrayList<BasicBullet> deadProjectiles = new ArrayList<>();
 
-        for (Bullet bullet : projectiles) {
+        for (BasicBullet bullet : projectiles) {
             // If the bullet's TTL is expired we add it to the deadProjectiles list to remove later
             if (bullet.getTimeToLive() <= 0) {
                 deadProjectiles.add(bullet);

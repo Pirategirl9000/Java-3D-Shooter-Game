@@ -7,7 +7,7 @@ import javafx.scene.shape.Box;
 /**
  * Represents a single bullet; contains methods for handling the bullet
  */
-public class Bullet extends Box {
+public class BasicBullet extends Box {
     /**
      * Width of the bullet
      */
@@ -46,7 +46,7 @@ public class Bullet extends Box {
     /**
      * Creates a new bullet at the set position
      */
-    protected Bullet(double x, double y, double z, double xVel, double yVel, double zVel) {
+    protected BasicBullet(double x, double y, double z, double xVel, double yVel, double zVel) {
         // Hey that's cool, you can't reference these fields(WIDTH, HEIGHT, DEPTH) unless they are static because super precedes the object's creation
         // I guess that's why super() has to be the first call in the constructor since the parent class has to be initialized first before the child
         // I did not know that :)

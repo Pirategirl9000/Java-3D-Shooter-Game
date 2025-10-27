@@ -1,6 +1,6 @@
 package Java3DShooter;
 
-import Java3DShooter.Player.Bullet;
+import Java3DShooter.Player.BasicBullet;
 import Java3DShooter.Player.Player;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -199,7 +199,7 @@ public class Main extends Application {
 
         // Enemy logic
         for (Enemy currentEnemy : enemies) {
-            for (Bullet bullet : player.getBullets()) {
+            for (BasicBullet bullet : player.getBullets()) {
                 if (isColliding(bullet, currentEnemy)) {
                     currentEnemy.takeDamage(1);
                     bullet.killBullet();
