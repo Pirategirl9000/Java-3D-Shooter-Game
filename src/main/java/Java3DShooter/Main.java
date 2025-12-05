@@ -232,46 +232,6 @@ public class Main extends Application {
     }
 
     /**
-     * Creates a trans flag centered on a certain point
-     * @param width width of the flag
-     * @param height height of the flag
-     * @param depth depth of the flag
-     * @param x x position to center it on
-     * @param y y position to center it on
-     * @param z z position to center it on
-     * @return an array of Boxes that make up the flag
-     */
-    private Box[] makeTransFlag(int width, int height, int depth, int x, int y, int z) {
-        final PhongMaterial pinkBanner = new PhongMaterial();
-        final PhongMaterial blueBanner = new PhongMaterial();
-        final PhongMaterial whiteBanner = new PhongMaterial();
-
-        pinkBanner.setDiffuseColor(Color.LIGHTPINK);
-        blueBanner.setDiffuseColor(Color.LIGHTBLUE);
-        whiteBanner.setDiffuseColor(Color.WHITE);
-
-        Box[] boxes = new Box[] {
-                new Box(width, height, depth),
-                new Box(width, height, depth),
-                new Box(width, height, depth),
-                new Box(width, height, depth),
-                new Box(width, height, depth),
-        };
-
-        boxes[0].setMaterial(blueBanner);
-        boxes[1].setMaterial(pinkBanner);
-        boxes[2].setMaterial(whiteBanner);
-        boxes[3].setMaterial(pinkBanner);
-        boxes[4].setMaterial(blueBanner);
-
-        for (int i = -2; i < boxes.length - 2; i++) {
-            setTranslate(boxes[i + 2], x, y + height * i, 0);
-        }
-
-        return boxes;
-    }
-
-    /**
      * Sets up the scene being displayed by the stage
      */
     private void initializeScene() {
@@ -365,7 +325,6 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         // Create any objects
-        Box[] transflag = makeTransFlag(100, 20, 100, 0, -50, 0);
         Box ground = createBox(GROUNDWIDTH, GROUNDHEIGHT, GROUNDDEPTH, 0, GROUNDHEIGHT * 0.5, 0, Color.GREEN);
         Box sun = createBox(SUNDIMENSIONS[0], SUNDIMENSIONS[1], SUNDIMENSIONS[2], SUNCOORDS[0], SUNCOORDS[1], SUNCOORDS[2], Color.YELLOW);
 
@@ -381,7 +340,6 @@ public class Main extends Application {
         Enemy.setGroundPlaneBoundingBox(groundPlaneBoundingBox);
 
         // Add the objects to root
-        root.getChildren().addAll(transflag);
         root.getChildren().add(ground);
         root.getChildren().add(sun);
         root.getChildren().add(player);  // Player stores both the player's hitbox and all bullets
