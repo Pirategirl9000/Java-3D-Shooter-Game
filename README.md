@@ -8,12 +8,6 @@ ___
 ### This motion vector is defined by <x, z> = <SPEED * sin(xTilt.getAngle()), SPEED * cos(xTilt.getAngle())>
 ### Usually motion vectors are defined as x = cos(angle) but because we are attempting trigonometry on the x and z axis the trigonometry changes
 ### We can determine that the z-axis associates with cos since at angle=0 the camera is facing the positive z-axis so we use a trig function for the z-axis that has f(0) = 1 which turns out to be cos()
-#
-### We use this same logic for determing the bullet's motion vector except we also include the y-tilt just for determining the y-velocity
-### This is because the bullet is traversing all three axis, and it's movement is based on the angle of the camera
-### The logic is the same but the trig changes a little bit since we need to use a different angle to determine the y part of the motion vector
-### The y part uses basic trig for the most part but using the y-tilt angle instead of the x-tilt angle.
-### The y portion of the vector needs negation however since the y value increases as you go down because of how programs typically render the y-axis
 ___
 ## Class Breakdown
 ___
@@ -101,5 +95,5 @@ ___
 ### Enemies always move in the direction of the player in a straight line
 ### The direction the enemies will move in is calculating by using the difference in x and z coordinates between the player and enemy to calculate the hypotenuse
 ### Each enemy does these calculations itself through the move(double playerX, double playerZ) method.
-[Diagram of the Enemy Class](resources/EnemyDiagram.png)
+![Diagram of the Enemy Class](resources/EnemyDiagram.png)
 
