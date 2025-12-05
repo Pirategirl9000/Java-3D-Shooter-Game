@@ -5,6 +5,7 @@ import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 
 /**
+ * 
  * Represents a single bullet; contains methods for handling the bullet
  */
 public class BasicBullet extends Box {
